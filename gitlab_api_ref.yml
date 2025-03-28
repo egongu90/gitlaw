@@ -1,0 +1,85 @@
+---
+default_policy:
+  group:
+    name: "Example"
+    description: "Example description"
+    visibility: ["Private", "Internal", "Public"]
+    email: "example@example.com"
+    permissions:
+      members_cannot_invite: False
+      projects_cannot_be_shared: False
+      can_create_tokens: True
+      can_create_projects: ["Developers", "Maintainers", "Owners", "Administrators", "Noone"]
+      can_create_subgroups: ["Owners", "Maintainers"]
+      fork_outside_group: False
+    notifications:
+      enable: true
+    lfs: true
+    git_protocols: ["https", "ssh", "both"]
+    authentication:
+      2fa_required: false
+      subgroups_can_change_2fa: false
+    can_request_access: false
+    # customer_relations_enabled: True
+    badges:
+      - name: "Example"
+        link: "https://example.com/%{project_path}"
+        image_url: "https://example.com/%{project_path}/image.png"
+    integrations:
+      - name: datadog
+        xxx: xxx
+        yyy: yyy
+    webhooks:
+      - name: "Example"
+        url: xxxx
+        permissions: xxx
+        token: zzz
+    tokens:
+      - name: "Example"
+        description: "Example description"
+        expiration_data: "yy-mm-dd"
+        role: Guest
+        scopes:
+          - api
+          - read_api
+          - create_runner
+          - manage_runner
+          - k8s_proxy
+          - self_rotate
+          - read_repository
+          - write_repository
+          - read_registry
+          - write_registry
+          - ai_features
+    repositories:
+      repos:
+        - test
+        - test2
+      visibility: "internal"
+      allow_merge_on_skipped_pipeline:
+      auto_cancel_pending_pipelines: "enabled"
+      auto_devops_enabled: False
+      autoclose_referenced_issues: true
+      avatar:
+      git_strategy: fetch
+      build_timeout: 3600
+      ci_config_path:
+      ci_default_git_depth:
+      ci_delete_pipelines_in_seconds:
+      branch:
+        default: main
+        protected: true
+        allow_push: "No one"
+        force_push: False
+        push_initial_commit: true
+        allow_merge: "Maintainers"
+        autoclose_issues_on_default: true
+        name_template: "%{id}-%{title}"
+
+org:
+  url: https://privategitlab.example.com
+  groups:
+    - product1
+    - product2
+  group:
+    - xx
