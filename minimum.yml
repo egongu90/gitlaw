@@ -1,0 +1,124 @@
+---
+default_group_policy: &default_group_policy
+    visibility: internal
+    auto_devops_enabled: false
+    default_branch: main
+    default_branch_protection_defaults:
+      allowed_to_push: "No one"
+      allow_force_push: false
+      allowed_to_merge: "Maintainers"
+      developer_can_initial_push: true
+    enabled_git_access_protocol: all
+    lfs_enabled: true
+    project_creation_level: maintainer
+    subgroup_creation_level: maintainer
+    wiki_access_level: private
+    request_access_enabled: true
+    require_two_factor_authentication: false
+    group_protected_branch_settings:
+      - name: main
+        allow_force_push: false
+        merge_access_level: "maintainers"
+        push_access_level: "No one"
+        unprotect_access_level: "No one"
+    project:
+      visibility: "internal"
+      git_strategy: fetch
+      build_timeout: 3600
+      ci_config_path:
+      group_runners_enabled: true
+      issues_template: xxxx
+      merge_commit_template: xxx
+      max_artifacts_size: 150
+      lfs: true
+      merge_method: merge
+      merge_pipelines_enabled: true
+      merge_trains_enabled: true
+      only_allow_merge_if_all_discussions_are_resolved: true
+      only_allow_merge_if_pipeline_succeeds: true
+      packages_enabled: false
+      public_jobs: false
+      remove_source_branch_after_merge: true
+      request_access_enabled: false
+      resolve_outdated_diff_discussions: true
+      shared_runners_enabled: true
+      squash_option: default_on
+      access_levels:
+        build_access_level: enabled
+        container_registry_access_level: enabled
+        environments_access_level: disabled
+        feature_flags_access_level: disabled
+        forking_access_level: enabled
+        issues_access_level: enabled
+        merge_requests_access_level: enabled
+        pages_access_level: enabled
+        releases_access_level: enabled
+        repository_access_level: enabled
+        snippets_access_level: enabled
+        wiki_access_level: enabled
+      branch:
+        default: main
+        protected: true
+        allow_force_push: false
+        push_initial_commit: true
+        merge_access_level: "maintainers"
+        push_access_level: "No one"
+        unprotect_access_level: "No one"
+        autoclose_issues_on_default: true
+        name_template: "%{id}-%{title}"
+        code_owner_approval_required: true
+      merge_request:
+        allow_author_approval: false
+        allow_committer_approval: true
+        allow_overrides_to_approver_list_per_merge_request: true
+        retain_approvals_on_push: false
+        selective_code_owner_removals: false
+        require_reauthentication_to_approve: false
+
+default_instance_policy: &default_instance_policy
+    auto_devops_enabled: false
+    bulk_import_enabled: false
+    can_create_group: false
+    updating_name_disabled_for_users: false
+    allow_account_deletion: false
+    default_artifacts_expire_in: 36000
+    default_branch_name: main
+    default_branch_protection_defaults:
+      allowed_to_push: "No one"
+      allow_force_push: false
+      allowed_to_merge: "Maintainers"
+    default_group_visibility: internal
+    default_project_visibility: internal
+    default_snippet_visibility: internal
+    default_projects_limit: 100
+    default_project_deletion_protection: false
+    disable_personal_access_tokens: false
+    enabled_git_access_protocol: all
+    enforce_terms: false
+    terms: "xxx markdown"
+    group_owners_can_manage_default_branch_protection: true
+    import_sources:
+      - github
+      - bitbucket
+      - bitbucket_server
+      - git
+      - gitlab_project
+      - gitea
+      - manifest
+    max_artifacts_size: 150
+    password_authentication_enabled_for_git: true
+    password_authentication_enabled_for_web: true
+    prevent_merge_requests_author_approval: true
+    prevent_merge_requests_committers_approval: true
+    signup_enabled: false
+
+organization:
+  url: https://privategitlab.example.com
+  instance: *default_instance_policy
+  groups:
+    - name: Example
+      description: "Example description"
+      policy: *default_group_policy
+    - name: Example2
+      description: "Example2 description"
+      policy: *default_group_policy
