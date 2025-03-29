@@ -75,7 +75,7 @@ default_group_policy: &default_group_policy
         selective_code_owner_removals: false
         require_reauthentication_to_approve: false
 
-default_instance_policy: &default_instance_policy
+default_service_policy: &default_service_policy
     auto_devops_enabled: false
     bulk_import_enabled: false
     can_create_group: false
@@ -114,7 +114,10 @@ default_instance_policy: &default_instance_policy
 
 organization:
   url: https://privategitlab.example.com
-  instance: *default_instance_policy
+  type: gitlab
+  configure_service: true
+  configure_groups: true
+  service: *default_service_policy
   groups:
     - name: Example
       description: "Example description"

@@ -3,8 +3,13 @@ Main entrypoint scm policy package.
 """
 
 import os
+import urllib3
 
 from scm_policy.base.parser import Yamlloader
+from scm_policy.base.backend import BackendManager
+
+# For development only, enforce ssl when finished
+urllib3.disable_warnings()
 
 try:
     SERVER_URL = os.environ['SERVER_URL']
@@ -17,13 +22,9 @@ def main():
     """Main method."""
 
     config_data = Yamlloader().read_file(CONFIG_FILE)
-    print(SERVER_AUTH_TOKEN)
-    print(SERVER_URL)
-    print("Setting Instance config")
-    for group in config_data.get('organization').get('groups'):
-        print(group.get('policy').get('group_protected_branch_settings'))
-
-    # print(config_data['organization']['groups'][2]['name'])
+    print("Setting service config")
+    BackendManager(config_data.get('organization')).handle_backend_type(SERVER_URL,
+                                                                        SERVER_AUTH_TOKEN)
 
     # Just for testing to read full rendered file
     # import yaml

@@ -5,7 +5,6 @@ SCM policy manager
 - Basic option support
 - dry-run,check -> output what is not in desired state
 - SAST, unit tests, packaging (signed, attested, provenance)
-- If possible, clean code, interfaces
 - Hierarchical merge of values, from more specific to default
 - Design with multi scm support in mind
 # Must have:
