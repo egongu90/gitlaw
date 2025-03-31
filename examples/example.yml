@@ -76,26 +76,31 @@ default_group_policy: &default_group_policy
         require_reauthentication_to_approve: false
 
 default_service_policy: &default_service_policy
-    auto_devops_enabled: false
+    auto_devops_enabled: False
     bulk_import_enabled: false
     can_create_group: false
     updating_name_disabled_for_users: false
-    allow_account_deletion: false
-    default_artifacts_expire_in: 36000
+    allow_account_deletion: true
+    default_artifacts_expire_in: "30 days"
     default_branch_name: main
     default_branch_protection_defaults:
-      allowed_to_push: "No one"
+      allowed_to_push:
+       - access_level: 40
       allow_force_push: false
-      allowed_to_merge: "Maintainers"
-    default_group_visibility: internal
-    default_project_visibility: internal
-    default_snippet_visibility: internal
-    default_projects_limit: 100
+      allowed_to_merge: 
+      - access_level: 40
+      developer_can_initial_push: false
+    default_group_visibility: private
+    default_project_visibility: private
+    default_snippet_visibility: private
+    restricted_visibility_levels:
+      - public
+    default_projects_limit: 100000
     default_project_deletion_protection: false
     disable_personal_access_tokens: false
-    enabled_git_access_protocol: all
+    enabled_git_access_protocol:
     enforce_terms: false
-    terms: "xxx markdown"
+    terms: "Example terms"
     group_owners_can_manage_default_branch_protection: true
     import_sources:
       - github
@@ -105,12 +110,12 @@ default_service_policy: &default_service_policy
       - gitlab_project
       - gitea
       - manifest
-    max_artifacts_size: 150
+    max_artifacts_size: 100
     password_authentication_enabled_for_git: true
     password_authentication_enabled_for_web: true
     prevent_merge_requests_author_approval: true
     prevent_merge_requests_committers_approval: true
-    signup_enabled: false
+    signup_enabled: true
 
 organization:
   url: https://privategitlab.example.com
