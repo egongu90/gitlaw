@@ -1,15 +1,33 @@
-from scm_policy.gitlab.backend import Gitlab
+"""Backend manager."""
+from scm_policy.gitlab.backend import GitlabBackend
 
 
 class BackendManager:
-    def __init__(self, config):
+    """BackendManager class.
+
+    Manages interactions with backend services APIs.
+    """
+    def __init__(self, config) -> None:
+        """Init class.
+        
+        Args:
+        config: Config data.
+        """
         self.config = config
 
-    def handle_backend_type(self, server_url, server_auth_token):
+    def handle_backend_type(self, server_url, server_auth_token) -> None:
+        """Call inner backend services depending on the config.
+
+        Args:
+        server_url: GitLab server URL.
+        server_auth_token: Gitlab auth token
+        """
         if self.config.get('type') == "gitlab":
-            Gitlab(self.config, server_url, server_auth_token).entrypoint()
+            GitlabBackend(self.config, server_url, server_auth_token).entrypoint()
         elif self.config.get('type') == "github":
             pass
 
+    # Just for pylint, add exception if no more methods are created for this class
     def handle_auth(self):
-        pass
+        """handle auth."""
+        print("pass")
