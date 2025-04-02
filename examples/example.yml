@@ -1,13 +1,15 @@
 ---
 default_group_policy: &default_group_policy
-    visibility: internal
+    visibility: private
     auto_devops_enabled: false
     default_branch: main
     default_branch_protection_defaults:
-      allowed_to_push: "No one"
+      allowed_to_push:
+       - access_level: 40
       allow_force_push: false
-      allowed_to_merge: "Maintainers"
-      developer_can_initial_push: true
+      allowed_to_merge: 
+      - access_level: 40
+      developer_can_initial_push: false
     enabled_git_access_protocol: all
     lfs_enabled: true
     project_creation_level: maintainer
@@ -15,12 +17,12 @@ default_group_policy: &default_group_policy
     wiki_access_level: private
     request_access_enabled: true
     require_two_factor_authentication: false
-    group_protected_branch_settings:
-      - name: main
-        allow_force_push: false
-        merge_access_level: "maintainers"
-        push_access_level: "No one"
-        unprotect_access_level: "No one"
+    # group_protected_branch_settings:
+    #   - name: main
+    #     allow_force_push: false
+    #     merge_access_level: 40
+    #     push_access_level: 20
+    #     unprotect_access_level: 40
     project:
       visibility: "internal"
       git_strategy: fetch
@@ -61,9 +63,9 @@ default_group_policy: &default_group_policy
         protected: true
         allow_force_push: false
         push_initial_commit: true
-        merge_access_level: "maintainers"
-        push_access_level: "No one"
-        unprotect_access_level: "No one"
+        merge_access_level: 40
+        push_access_level: 0
+        unprotect_access_level: 40
         autoclose_issues_on_default: true
         name_template: "%{id}-%{title}"
         code_owner_approval_required: true
@@ -117,16 +119,35 @@ default_service_policy: &default_service_policy
     prevent_merge_requests_committers_approval: true
     signup_enabled: true
 
+default_members: &default_members
+  - name: user1
+    access_level: 40
+  - name: user2
+    access_level: 30
+  # - name: user3
+  #   access_level: 30
+
 organization:
   url: https://privategitlab.example.com
   type: gitlab
   configure_service: true
   configure_groups: true
   service: *default_service_policy
+  auto_create_groups: true
   groups:
     - name: Example
       description: "Example description"
       policy: *default_group_policy
-    - name: Example2
-      description: "Example2 description"
-      policy: *default_group_policy
+      members: *default_members
+    # - name: Example2
+    #   description: "Example2 description"
+    #   policy: *default_group_policy
+    #   members:
+    #     - name: user1
+    #       access_level: 30
+    #     - name: user2
+    #       access_level: 40
+    # - name: Example3
+    #   description: "Example3 description"
+    #   policy: *default_group_policy
+

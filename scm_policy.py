@@ -28,7 +28,6 @@ def main():
     # with open('/tmp/dumped.yaml', 'w') as file:
     #     yaml.dump(config_data, file)
 
-    print("Setting service config")
     BackendManager(config_data.get('organization')).handle_backend_type(SERVER_URL,
                                                                         SERVER_AUTH_TOKEN)
 
