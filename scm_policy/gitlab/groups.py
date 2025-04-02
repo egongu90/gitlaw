@@ -102,7 +102,8 @@ class Groups:
 
         """
         try:
-            for member in members:
+            # if members is not None
+            for member in (members) or []:
                 existing_user = self.gl.users.list(username=member.get('name'))[0]
                 user_id = existing_user.id
                 try:
