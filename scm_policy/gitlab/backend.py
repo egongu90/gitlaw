@@ -2,6 +2,7 @@
 import gitlab
 
 from scm_policy.gitlab.settings import Settings
+from scm_policy.gitlab.groups import Groups
 
 class GitlabBackend:
     """Gitlab class.
@@ -23,7 +24,11 @@ class GitlabBackend:
 
     def entrypoint(self) -> None:
         """Call gitlab methods."""
+        print("Configuring service...")
         Settings(self.gl, self.config.get('service')).manager()
+        for group in self.config.get('groups'):
+            print(f"Configuring group {group.get('name')} settings...")
+            Groups(self.gl, group).manager(auto_create_groups=self.config.get('auto_create_groups', True))
 
     def handle_auth(self, server_url, server_auth_token) -> object:
         """Init gitlab object with auth.

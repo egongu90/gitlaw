@@ -2,5 +2,12 @@
 disable=
     no-name-in-module
 
+
 [FORMAT]
 max-line-length=119
+
+[SIMILARITIES]
+min-similarity-lines=10
+ignore-comments=yes
+ignore-docstrings=yes
+ignore-imports=no
