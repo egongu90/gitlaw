@@ -34,9 +34,14 @@ class Groups:
 
         # Iterate over server projects, if project is not in user defined list,
         # adds the project into the user list for default configuration.
+        # If projects is not defined in the config file, force creation
+        # so projects can be configured with default values.
         for srv in srv_projects:
-            if not any(x.get('name') == srv.name for x in self.config.get('projects', [])):
-                self.config.get('projects').append({'name': srv.name})
+            try:
+                if not any(x.get('name') == srv.name for x in self.config.get('projects', [])):
+                    self.config.get('projects').append({'name': srv.name})
+            except AttributeError:
+                self.config['projects'] = [{'name': srv.name}]
 
         # With the full list of projects configure each one
         for project in self.config.get('projects', []):
