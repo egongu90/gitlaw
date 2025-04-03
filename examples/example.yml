@@ -146,17 +146,17 @@ organization:
           visibility: private
           public_jobs: true
 
-    # - name: Example2
-    #   description: "Example2 description"
-    #   policy: *default_group_policy
-    #   members:
-    #     - name: user1
-    #       access_level: 30
-    #     - name: user2
-    #       access_level: 40
-    # - name: Example3
-    #   description: "Example3 description"
-    #   policy: *default_group_policy
+    - name: Example2
+      description: "Example2 description"
+      policy: *default_group_policy
+      members:
+        - name: user1
+          access_level: 30
+        - name: user2
+          access_level: 40
+    - name: Example3
+      description: "Example3 description"
+      policy: *default_group_policy
       # projects:
       # - name: test
 
