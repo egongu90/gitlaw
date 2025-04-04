@@ -1,5 +1,5 @@
 """Backend manager."""
-from scm_policy.gitlab.backend import GitlabBackend
+from gitlaw.gitlab.backend import GitlabBackend
 
 
 class BackendManager:

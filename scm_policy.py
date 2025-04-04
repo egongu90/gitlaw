@@ -5,8 +5,8 @@ Main entrypoint scm policy package.
 import os
 import urllib3
 
-from scm_policy.base.parser import Yamlloader
-from scm_policy.base.backend import BackendManager
+from gitlaw.base.parser import Yamlloader
+from gitlaw.base.backend import BackendManager
 
 # For development only, enforce ssl when finished
 urllib3.disable_warnings()
