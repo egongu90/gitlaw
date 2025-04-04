@@ -1,8 +1,8 @@
 """Module to orchestrate gitlab interactions."""
 import gitlab
 
-from scm_policy.gitlab.settings import Settings
-from scm_policy.gitlab.groups import Groups
+from gitlaw.gitlab.settings import Settings
+from gitlaw.gitlab.groups import Groups
 
 class GitlabBackend:
     """Gitlab class.
