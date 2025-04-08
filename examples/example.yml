@@ -17,6 +17,13 @@ default_group_policy: &default_group_policy
     wiki_access_level: private
     request_access_enabled: true
     require_two_factor_authentication: false
+    merge_request:
+      allow_author_approval: false
+      allow_committer_approval: true
+      allow_overrides_to_approver_list_per_merge_request: true
+      retain_approvals_on_push: false
+      selective_code_owner_removals: false
+      require_reauthentication_to_approve: false
     # python gitlab does not allow to configure this yet.
     # group_protected_branch_settings:
     #   - name: main
@@ -38,7 +45,7 @@ default_project_policy: &default_project_policy
   merge_method: merge
   merge_pipelines_enabled: true
   merge_trains_enabled: true
-  only_allow_merge_if_all_discussions_are_resolved: false
+  only_allow_merge_if_all_discussions_are_resolved: true
   only_allow_merge_if_pipeline_succeeds: false
   packages_enabled: true
   public_jobs: true
@@ -73,14 +80,16 @@ default_project_policy: &default_project_policy
 
 branch_defaults: &branch_defaults
   - name: main
-    allow_force_push: false
-    merge_access_levels:
-      - access_level: 30
-    push_access_levels:
-      - access_level: 0
-    unprotect_access_levels:
-      - access_level: 40
+    allow_force_push: False
     code_owner_approval_required: False
+    # Currently not supported
+    # merge_access_levels:
+    #   - access_level: 30
+    # push_access_levels:
+    #   - access_level: 0
+    # unprotect_access_levels:
+    #   - access_level: 40
+    
   # - name: master
   #   allow_force_push: false
   #   merge_access_level: 40
@@ -160,21 +169,24 @@ organization:
       subgroups: #WIP
       projects:
       - name: test2
-        policy:
-          visibility: private
-          public_jobs: true
-          compliance_frameworks: []
-          issues_access_level: private
-          branch: *branch_defaults
-
+        policy: *default_project_policy
+          # visibility: private
+          # public_jobs: true
+          # compliance_frameworks: []
+          # issues_access_level: private
+          # branch: *branch_defaults
     # - name: Example2
     #   description: "Example2 description"
-    #   policy: *default_group_policy
+    #   # policy: *default_group_policy
+    #   policy:
+    #     merge_request:
+    #       allow_author_approval: True
     #   members:
     #     - name: user1
     #       access_level: 30
     #     - name: user2
     #       access_level: 40
+
     # - name: Example3
     #   description: "Example3 description"
     #   policy: *default_group_policy
