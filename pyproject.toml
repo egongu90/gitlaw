@@ -1,0 +1,19 @@
+[project]
+name = "gitlaw"
+version = "0.0.1"
+authors = [
+  { name="Eduardo Gonzalez", email="dabarren@gmail.com" },
+]
+description = "SCM policy manager"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+
+[project.urls]
+Homepage = "https://github.com/xNaaro/gitlaw"
+Issues = "https://github.com/xNaaro/gitlaw/issues"
