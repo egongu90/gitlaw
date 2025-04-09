@@ -15,11 +15,11 @@ class Settings:
         else:
             self.config = {}
 
-    def manager(self) -> None:
+    def manager(self, dry_run) -> None:
         """Orchestrates the other class methods."""
         user_settings = self._set_defaults()
         server_object = self.get_settings()
-        self.eval_changes(user_settings, server_object)
+        self.eval_changes(user_settings, server_object, dry_run)
 
     def get_settings(self) -> dict:
         """Query config data from the API.
@@ -77,7 +77,7 @@ class Settings:
                                                    'developer_can_initial_push': False})
         return defaults
 
-    def eval_changes(self, user_settings, server_obj):
+    def eval_changes(self, user_settings, server_obj, dry_run):
         """Checks for changes.
         
         Evaluate if the config file data provided match with data in GitLab API,
@@ -89,7 +89,8 @@ class Settings:
                     print(f"Expected value `{key}: {value}` does not match with remote "
                           f"`{getattr(server_obj, key)}`")
                     setattr(server_obj, key, value)
-                server_obj.save()
+                if not dry_run:
+                    server_obj.save()
             except AttributeError:
                 # When some attribute is only present in licensed servers, the attribute
                 # does not exists in the API and raises this exception.

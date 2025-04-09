@@ -1,15 +1,15 @@
 """Module to orchestrate gitlab interactions."""
 import gitlab
 
-from gitlaw.gitlab.settings import Settings
-from gitlaw.gitlab.groups import Groups
+from gitlaw.gitlab_base.settings import Settings
+from gitlaw.gitlab_base.groups import Groups
 
 class GitlabBackend:
     """Gitlab class.
 
     Manages interactions with GitLab APIs.
     """
-    def __init__(self, config, server_url, server_auth_token) -> None:
+    def __init__(self, config, server_url, server_auth_token, tls_verify) -> None:
         """Init class.
         
         Args:
@@ -20,18 +20,19 @@ class GitlabBackend:
         Returns: None
         """
         self.config = config
-        self.gl = self.handle_auth(server_url, server_auth_token)
+        self.gl = self.handle_auth(server_url, server_auth_token, tls_verify)
 
-    def entrypoint(self) -> None:
+    def entrypoint(self, dry_run) -> None:
         """Call gitlab methods."""
         print("Configuring service...")
-        Settings(self.gl, self.config.get('service')).manager()
+        Settings(self.gl, self.config.get('service')).manager(dry_run)
         for group in self.config.get('groups'):
             Groups(self.gl, group).manager(configure_groups=self.config.get('configure_groups', True),
                                            configure_projects=self.config.get('configure_projects', True),
-                                           auto_create_groups=self.config.get('auto_create_groups', True))
+                                           auto_create_groups=self.config.get('auto_create_groups', True),
+                                           dry_run=dry_run)
 
-    def handle_auth(self, server_url, server_auth_token) -> object:
+    def handle_auth(self, server_url, server_auth_token, tls_verify) -> object:
         """Init gitlab object with auth.
 
         Args:
@@ -39,5 +40,5 @@ class GitlabBackend:
         server_auth_token: Gitlab auth token
         ssl_verify: Verify SSL connections, defaults to False
         """
-        gl = gitlab.Gitlab(url=server_url, private_token=server_auth_token, ssl_verify=False)
+        gl = gitlab.Gitlab(url=server_url, private_token=server_auth_token, ssl_verify=tls_verify)
         return gl

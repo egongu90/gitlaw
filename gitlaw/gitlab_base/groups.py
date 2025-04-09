@@ -16,7 +16,7 @@ class Groups:
         else:
             self.config = {}
 
-    def manager(self, configure_groups=True, configure_projects=True, auto_create_groups=True) -> None:
+    def manager(self, configure_groups=True, configure_projects=True, auto_create_groups=True, dry_run=False) -> None:
         """Orchestrates the other class methods.
 
         Args:
@@ -27,10 +27,10 @@ class Groups:
             user_group = self._set_defaults(self.config.get('name', None),
                                             self.config.get('description', ""),
                                             self.config.get('policy', None))
-            server_object = self.get_groups(auto_create_groups)
-            self.eval_changes(user_group, server_object)
+            server_object = self.get_groups(auto_create_groups, dry_run)
+            self.eval_group_changes(user_group, server_object, dry_run)
             print(f"Configuring members of group {self.config.get('name', None)}...")
-            self.configure_members(members=self.config.get('members', None), server_obj=server_object)
+            self.configure_members(members=self.config.get('members', None), server_obj=server_object, dry_run=dry_run)
             print(f"Configuring approval rules of group {self.config.get('name', None)}...")
             # NOTE: Rules only available on paid license.
             # group_approvals = self._set_approval_defaults(self.config.get('policy', None).get('merge_request', None))
@@ -56,15 +56,15 @@ class Groups:
                     project_defaults = self._set_project_defaults(project.get('name'),
                                                                   policy=project.get('policy', {}))
                     print(f"Configuring project {project.get('name')}...")
-                    self.eval_project_changes(project_defaults)
+                    self.eval_project_changes(project_defaults, dry_run)
 
                     for branch in project.get('policy', {}).get('branch', {}):
                         project_branch_defaults = self._set_project_branch_defaults(policy=branch)
                         print(f"Configuring project branch rules for {project.get('name')} " \
                               f"branch {branch.get('name', None)}...")
-                        self.eval_project_branch_changes(project.get('name'), project_branch_defaults)
+                        self.eval_project_branch_changes(project.get('name'), project_branch_defaults, dry_run)
 
-    def get_groups(self, auto_create_groups) -> dict:
+    def get_groups(self, auto_create_groups, dry_run) -> dict:
         """Query config data from the API.
 
         Args:
@@ -75,7 +75,7 @@ class Groups:
         try:
             group = self.gl.groups.get(self.config.get('name'))
         except GitlabGetError as exc:
-            if auto_create_groups:
+            if auto_create_groups and not dry_run:
                 group = self.gl.groups.create({'name': self.config.get('name'),
                                                'path': self.config.get('name')})
             else:
@@ -112,7 +112,7 @@ class Groups:
                                                    'developer_can_initial_push': False})
         return defaults
 
-    def eval_changes(self, user_group, server_obj):
+    def eval_group_changes(self, user_group, server_obj, dry_run):
         """Checks for changes on group api.
 
         Evaluate if the config file data provided match with data in GitLab group API,
@@ -124,13 +124,14 @@ class Groups:
                     print(f"Expected value `{key}: {value}` does not match with remote "
                           f"`{getattr(server_obj, key)}`")
                     setattr(server_obj, key, value)
-                server_obj.save()
+                if not dry_run:
+                    server_obj.save()
             except AttributeError:
                 # When some attribute is only present in licensed servers, the attribute
                 # does not exists in the API and raises this exception.
                 pass
 
-    def configure_members(self, members, server_obj):
+    def configure_members(self, members, server_obj, dry_run):
         """Add or update members of a group.
 
         """
@@ -145,11 +146,13 @@ class Groups:
                         print(f"Expected access_level for member `{member.get('name')}: {member.get('access_level')}` "
                           f"does not match with remote `{group_member.access_level}`")
                         group_member.access_level = member.get('access_level')
-                        group_member.save()
+                        if not dry_run:
+                            group_member.save()
                 except GitlabGetError:
                     print(f"Creating group member {member.get('name')}")
-                    server_obj.members.create({'user_id': user_id,
-                                            'access_level': member.get('access_level')})
+                    if not dry_run:
+                        server_obj.members.create({'user_id': user_id,
+                                                'access_level': member.get('access_level')})
         except IndexError as exc:
             raise IndexError(f"User {member.get('name')} does not exists") from exc
 
@@ -219,7 +222,7 @@ class Groups:
         return defaults
 
 
-    def eval_project_changes(self, user_project):
+    def eval_project_changes(self, user_project, dry_run):
         """Checks for changes on group api.
 
         Evaluate if the config file data provided match with data in GitLab group API,
@@ -233,7 +236,8 @@ class Groups:
                     print(f"Expected value in project {project.name} `{key}: {value}` does not match with remote "
                           f"`{getattr(project, key)}`")
                     setattr(project, key, value)
-                    project.save()
+                    if not dry_run:
+                        project.save()
             except AttributeError:
                 # When some attribute is only present in licensed servers, the attribute
                 # does not exists in the API and raises this exception.
@@ -258,7 +262,7 @@ class Groups:
         # defaults['unprotect_access_levels'] = policy.get('unprotect_access_levels', 40)
         return defaults
 
-    def eval_project_branch_changes(self, p_name, user_branch):
+    def eval_project_branch_changes(self, p_name, user_branch, dry_run):
         """Checks for changes on group api.
 
         Evaluate if the config file data provided match with data in GitLab group API,
@@ -274,7 +278,8 @@ class Groups:
                     print(f"Expected value in protected branch {p_branch.name} `{key}: {value}` does not "
                           f"match with remote `{getattr(p_branch, key)}`")
                     setattr(p_branch, key, value)
-                    p_branch.save()
+                    if not dry_run:
+                        p_branch.save()
             except AttributeError:
                 # When some attribute is only present in licensed servers, the attribute
                 # does not exists in the API and raises this exception.

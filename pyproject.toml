@@ -17,3 +17,6 @@ license-files = ["LICENSE"]
 [project.urls]
 Homepage = "https://github.com/xNaaro/gitlaw"
 Issues = "https://github.com/xNaaro/gitlaw/issues"
+
+[project.scripts]
+gitlaw = "gitlaw.cli:main"
