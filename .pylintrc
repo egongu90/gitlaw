@@ -2,9 +2,12 @@
 disable=
     no-name-in-module
 
-
 [FORMAT]
 max-line-length=119
+max-args = 6
+
+[DESIGN]
+max-positional-arguments = 6
 
 [SIMILARITIES]
 min-similarity-lines=10

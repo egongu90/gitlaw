@@ -154,8 +154,6 @@ default_members: &default_members
 
 
 organization:
-  url: https://privategitlab.example.com
-  type: gitlab
   configure_service: true
   configure_groups: true
   configure_projects: true
