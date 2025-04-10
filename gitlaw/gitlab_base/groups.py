@@ -26,7 +26,7 @@ class Groups:
             print(f"Configuring group {self.config.get('name', None)} settings...")
             user_group = self._set_defaults(self.config.get('name', None),
                                             self.config.get('description', ""),
-                                            self.config.get('policy', None))
+                                            self.config.get('policy', {}))
             server_object = self.get_groups(auto_create_groups, dry_run)
             self.eval_group_changes(user_group, server_object, dry_run)
             print(f"Configuring members of group {self.config.get('name', None)}...")
