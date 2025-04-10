@@ -15,11 +15,13 @@ class Settings:
         else:
             self.config = {}
 
-    def manager(self, dry_run) -> None:
+    def manager(self, configure_service=True, dry_run=False) -> None:
         """Orchestrates the other class methods."""
-        user_settings = self._set_defaults()
-        server_object = self.get_settings()
-        self.eval_changes(user_settings, server_object, dry_run)
+        if configure_service:
+            print("Configuring service...")
+            user_settings = self._set_defaults()
+            server_object = self.get_settings()
+            self.eval_changes(user_settings, server_object, dry_run)
 
     def get_settings(self) -> dict:
         """Query config data from the API.

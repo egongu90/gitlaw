@@ -27,6 +27,8 @@ class Yamlloader():
                 config = yaml.safe_load(file)
         except Exception as e:
             raise e
+        if config.get('organization') is None:
+            config = {'organization': {}}
         return config
 
     def pass_pylint(self):
