@@ -24,7 +24,9 @@ class GitlabBackend:
 
     def entrypoint(self, dry_run) -> None:
         """Call gitlab methods."""
-        Settings(self.gl, self.config.get('service')).manager(configure_service=self.config.get('configure_service', True), dry_run=dry_run)
+        Settings(self.gl,
+                 self.config.get('service')).manager(configure_service=self.config.get('configure_service', True),
+                                                     dry_run=dry_run)
         for group in self.config.get('groups', {}):
             Groups(self.gl, group).manager(configure_groups=self.config.get('configure_groups', True),
                                            configure_projects=self.config.get('configure_projects', True),

@@ -212,4 +212,4 @@ optional arguments:
 
 ## Roadmap
 
-[roadmap.md](roadmap.md)
+List of expected/wanted features [roadmap.md](roadmap.md)
