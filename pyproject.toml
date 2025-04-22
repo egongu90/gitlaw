@@ -15,8 +15,8 @@ license = "Apache-2.0"
 license-files = ["LICENSE"]
 
 [project.urls]
-Homepage = "https://github.com/xNaaro/gitlaw"
-Issues = "https://github.com/xNaaro/gitlaw/issues"
+Homepage = "https://github.com/egongu90/gitlaw"
+Issues = "https://github.com/egongu90/gitlaw/issues"
 
 [project.scripts]
 gitlaw = "gitlaw.cli:main"

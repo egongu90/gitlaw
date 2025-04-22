@@ -11,7 +11,7 @@ Install the package provided in github releases.
 TBD: Publish to pypi.
 
 ```sh
-pip install https://github.com/xNaaro/gitlaw/releases/download/0.0.1/gitlaw-0.0.1-py3-none-any.whl
+pip install https://github.com/egongu90/gitlaw/releases/download/0.0.1/gitlaw-0.0.1-py3-none-any.whl
 ```
 
 ## Usage
