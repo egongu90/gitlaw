@@ -1,2 +1,2 @@
 PyYAML==6.0.2
-python-gitlab==6.1.0
+python-gitlab==6.4.0
