@@ -22,7 +22,7 @@ Issues = "https://github.com/egongu90/gitlaw/issues"
 gitlaw = "gitlaw.cli:main"
 
 [build-system]
-requires = ["setuptools>=64", "setuptools_scm>=8"]
+requires = ["setuptools>=82.0.1", "setuptools_scm>=8"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools_scm]
